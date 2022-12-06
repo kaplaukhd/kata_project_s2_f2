@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="TaskJDBC" />
+        <module name="kata_project_s2_f2" />
       </profile>
     </annotationProcessing>
   </component>
