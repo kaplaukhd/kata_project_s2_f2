@@ -33,7 +33,9 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void saveUser(String name, String lastName, byte age) {
-        try (Connection connection = Util.connection()) {
+        Connection connection = null;
+        try {
+            connection = Util.connection();
             PreparedStatement statement = connection
                     .prepareStatement("INSERT INTO kata_f2_s1.user(name, lastname, age) VALUES(?,?,?)");
             statement.setString(1, name);
@@ -43,7 +45,19 @@ public class UserDaoJDBCImpl implements UserDao {
             connection.commit();
         } catch (SQLException e) {
             System.out.println("Can't save user " + name);
+            try {
+                connection.rollback();
+            } catch (SQLException exception) {
+                exception.printStackTrace();
+            }
             e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+
+            } catch (SQLException exception) {
+                exception.printStackTrace();
+            }
         }
         System.out.println("User с именем " + name + " добавлен в базу данных");
     }
